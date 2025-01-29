@@ -69,7 +69,7 @@
         function create() {
             this.add.image(225, 400, 'background').setScale(2); // Adjusted background for portrait resolution
             platforms = this.physics.add.staticGroup();
-            platforms.create(225, 750, 'ground').setScale(2).refreshBody(); // Adjusted for portrait resolution
+            platforms.create(225, 750, 'ground').setScale(0.5, 0.1).refreshBody(); // Adjusted proportions for ground
             
             player = this.physics.add.sprite(100, 700, 'player'); // Adjusted player start position
             player.setBounce(0.2);
