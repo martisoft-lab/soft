@@ -67,12 +67,13 @@
         }
 
         function create() {
-            this.add.image(225, 400, 'background').setScale(2); // Adjusted background for portrait resolution
+            this.add.image(225, 400, 'background').setScale(0.5); // Adjusted background scale for portrait resolution
+
             platforms = this.physics.add.staticGroup();
             platforms.create(225, 750, 'ground').setScale(0.5, 0.1).refreshBody(); // Adjusted proportions for ground
             
             player = this.physics.add.sprite(100, 700, 'player'); // Adjusted player start position
-            player.setBounce(0.2);
+            player.setScale(1).setBounce(0.2); // Ensuring correct player scale
             player.setCollideWorldBounds(true);
             
             this.anims.create({
@@ -102,14 +103,18 @@
                 repeat: 5,
                 setXY: { x: 100, y: 0, stepX: 70 }
             });
+            khinkali.children.iterate((child) => {
+                child.setScale(0.5); // Adjusting khinkali size
+            });
             
             dragons = this.physics.add.group();
-            dragons.create(300, 650, 'dragon'); // Adjusted dragon position for portrait mode
+            const dragon = dragons.create(300, 650, 'dragon'); // Adjusted dragon position for portrait mode
+            dragon.setScale(0.5); // Ensuring correct dragon size
 
             // Family is created but invisible initially
             family = this.physics.add.staticGroup();
             const familySprite = family.create(400, 100, 'family');
-            familySprite.setVisible(false);
+            familySprite.setScale(0.5).setVisible(false);
             familySprite.body.enable = false; // Disable physics initially
             
             scoreText = this.add.text(16, 16, 'Хинкали: 0', { fontSize: '24px', fill: '#ffffff' });
