@@ -57,12 +57,12 @@
         const game = new Phaser.Game(config);
 
         function preload() {
-            this.load.image('background', 'background.png'); // Фон
-            this.load.image('ground', 'ground.png'); // Платформа
-            this.load.spritesheet('player', 'varia.png', { frameWidth: 32, frameHeight: 48 }); // Спрайт Вари
-            this.load.image('khinkali', 'khinkali.png'); // Хинкали
-            this.load.spritesheet('dragon', 'dragon.png', { frameWidth: 48, frameHeight: 48 }); // Драконы
-            this.load.image('family', 'family.webp'); // Семья (мама, папа, 2 собаки, 1 рыжий кот)
+            this.load.image('background', 'assets/background.png'); // Фон
+            this.load.image('ground', 'assets/ground.png'); // Платформа
+            this.load.spritesheet('player', 'assets/varia.png', { frameWidth: 32, frameHeight: 48 }); // Спрайт Вари
+            this.load.image('khinkali', 'assets/khinkali.png'); // Хинкали
+            this.load.spritesheet('dragon', 'assets/dragon.png', { frameWidth: 48, frameHeight: 48 }); // Драконы
+            this.load.image('family', 'assets/family.webp'); // Семья (мама, папа, 2 собаки, 1 рыжий кот)
         }
 
         function create() {
