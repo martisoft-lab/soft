@@ -100,14 +100,7 @@
 
             cursors = this.input.keyboard.createCursorKeys();
 
-            khinkali = this.physics.add.group({
-                key: 'khinkali',
-                repeat: 5,
-                setXY: { x: 100, y: 0, stepX: 70 }
-            });
-            khinkali.children.iterate((child) => {
-                child.setScale(0.5); // Scale khinkali proportionally
-            });
+            khinkali = this.physics.add.group();
 
             dragons = this.physics.add.group();
             const dragon = dragons.create(300, config.scale.height - 200, 'dragon');
@@ -126,6 +119,13 @@
             this.physics.add.overlap(player, khinkali, collectKhinkali, null, this);
             this.physics.add.overlap(player, dragons, checkJumpOverDragon, null, this);
             this.physics.add.overlap(player, family, reachFamily, null, this);
+
+            this.time.addEvent({
+                delay: 1000, // Delay between khinkali spawns
+                callback: spawnKhinkali,
+                callbackScope: this,
+                loop: true
+            });
 
             this.physics.add.collider(player, platforms, () => {
                 if (player.x > config.scale.width - 100 && !familyTriggerActivated) {
@@ -151,6 +151,14 @@
             if (cursors.up.isDown && player.body.touching.down) {
                 player.setVelocityY(-330);
             }
+        }
+
+        function spawnKhinkali() {
+            const x = Phaser.Math.Between(50, config.scale.width - 50);
+            const newKhinkali = khinkali.create(x, 0, 'khinkali');
+            newKhinkali.setScale(0.5); // Ensure khinkali are scaled correctly
+            newKhinkali.setBounce(0.5);
+            newKhinkali.setCollideWorldBounds(true);
         }
 
         function collectKhinkali(player, khinkali) {
