@@ -28,8 +28,8 @@
             scale: {
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH,
-                width: 800, // Adjusted resolution for phones
-                height: 450 // Adjusted resolution for phones
+                width: 450, // Updated resolution for portrait mode
+                height: 800 // Updated resolution for portrait mode
             },
             physics: {
                 default: 'arcade',
@@ -51,6 +51,7 @@
         let khinkali;
         let dragons;
         let family;
+        let familyTriggerActivated = false;
         let score = 0;
         let scoreText;
 
@@ -66,11 +67,11 @@
         }
 
         function create() {
-            this.add.image(400, 225, 'background').setScale(1.5); // Adjusted background for smaller resolution
+            this.add.image(225, 400, 'background').setScale(2); // Adjusted background for portrait resolution
             platforms = this.physics.add.staticGroup();
-            platforms.create(400, 430, 'ground').setScale(2).refreshBody(); // Adjusted for new resolution
+            platforms.create(225, 750, 'ground').setScale(2).refreshBody(); // Adjusted for portrait resolution
             
-            player = this.physics.add.sprite(100, 350, 'player'); // Adjusted player start position
+            player = this.physics.add.sprite(100, 700, 'player'); // Adjusted player start position
             player.setBounce(0.2);
             player.setCollideWorldBounds(true);
             
@@ -99,14 +100,17 @@
             khinkali = this.physics.add.group({
                 key: 'khinkali',
                 repeat: 5,
-                setXY: { x: 150, y: 0, stepX: 120 }
+                setXY: { x: 100, y: 0, stepX: 70 }
             });
             
             dragons = this.physics.add.group();
-            dragons.create(600, 350, 'dragon'); // Adjusted dragon position
-            
+            dragons.create(300, 650, 'dragon'); // Adjusted dragon position for portrait mode
+
+            // Family is created but invisible initially
             family = this.physics.add.staticGroup();
-            family.create(750, 350, 'family'); // Adjusted family position
+            const familySprite = family.create(400, 100, 'family');
+            familySprite.setVisible(false);
+            familySprite.body.enable = false; // Disable physics initially
             
             scoreText = this.add.text(16, 16, 'Хинкали: 0', { fontSize: '24px', fill: '#ffffff' });
             
@@ -116,6 +120,15 @@
             this.physics.add.overlap(player, khinkali, collectKhinkali, null, this);
             this.physics.add.overlap(player, dragons, checkJumpOverDragon, null, this);
             this.physics.add.overlap(player, family, reachFamily, null, this);
+
+            // Trigger for family appearance
+            this.physics.add.collider(player, platforms, (player, platform) => {
+                if (player.x > 350 && !familyTriggerActivated) {
+                    familyTriggerActivated = true;
+                    familySprite.setVisible(true);
+                    familySprite.body.enable = true;
+                }
+            });
         }
 
         function update() {
@@ -152,7 +165,7 @@
         }
 
         function reachFamily(player, family) {
-            this.add.text(300, 200, 'Ты нашла свою семью!', { fontSize: '24px', fill: '#ffffff' }); // Adjusted for new resolution
+            this.add.text(100, 400, 'Ты нашла свою семью!', { fontSize: '24px', fill: '#ffffff' }); // Adjusted for portrait mode
             this.physics.pause();
         }
     </script>
