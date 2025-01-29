@@ -35,7 +35,7 @@
                 default: 'arcade',
                 arcade: {
                     gravity: { y: 500 },
-                    debug: false
+                    debug: true // Enable debug mode to see hitboxes
                 }
             },
             scene: {
@@ -56,9 +56,10 @@
         const game = new Phaser.Game(config);
 
         function preload() {
+            console.log('Loading assets...');
             this.load.image('background', 'assets/background.png'); // Background
             this.load.image('ground', 'assets/ground.png'); // Ground
-            this.load.spritesheet('player', 'assets/varia.png', { frameWidth: 64, frameHeight: 64 }); // Adjusted sprite size
+            this.load.spritesheet('player', 'assets/varia.png', { frameWidth: 48, frameHeight: 64 }); // Adjusted sprite size
             this.load.spritesheet('dragon', 'assets/dragon.png', { frameWidth: 48, frameHeight: 48 }); // Dragon
             this.load.image('family', 'assets/family.webp'); // Family
         }
@@ -74,7 +75,8 @@
 
             player = this.physics.add.sprite(100, config.scale.height - 150, 'player');
             player.setBounce(0.2).setCollideWorldBounds(true);
-            player.setScale(0.8); // Ensuring correct player scaling
+            player.setScale(1);
+            player.setSize(32, 60).setOffset(8, 4); // Adjust hitbox to fit sprite
 
             this.anims.create({
                 key: 'left',
