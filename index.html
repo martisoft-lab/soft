@@ -58,12 +58,13 @@
         function preload() {
             this.load.image('background', 'assets/background.png'); // Background
             this.load.image('ground', 'assets/ground.png'); // Ground
-            this.load.spritesheet('player', 'assets/varia.png', { frameWidth: 32, frameHeight: 48 }); // Player sprite
+            this.load.spritesheet('player', 'assets/varia.png', { frameWidth: 64, frameHeight: 64 }); // Adjusted sprite size
             this.load.spritesheet('dragon', 'assets/dragon.png', { frameWidth: 48, frameHeight: 48 }); // Dragon
             this.load.image('family', 'assets/family.webp'); // Family
         }
 
         function create() {
+            console.log('Game is creating...');
             const bg = this.add.image(0, 0, 'background');
             bg.setOrigin(0, 0).setDisplaySize(config.scale.width, config.scale.height); // Scale background to fit screen
 
@@ -73,7 +74,7 @@
 
             player = this.physics.add.sprite(100, config.scale.height - 150, 'player');
             player.setBounce(0.2).setCollideWorldBounds(true);
-            player.setScale(1); // Ensure player is correctly scaled
+            player.setScale(0.8); // Ensuring correct player scaling
 
             this.anims.create({
                 key: 'left',
