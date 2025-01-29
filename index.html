@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Игра Вари</title>
     <style>
         body {
@@ -14,6 +13,7 @@
             align-items: center;
             height: 100vh;
             background-color: #000;
+            overflow: hidden;
         }
         canvas {
             display: block;
@@ -25,8 +25,12 @@
     <script>
         const config = {
             type: Phaser.AUTO,
-            width: 800,
-            height: 600,
+            scale: {
+                mode: Phaser.Scale.FIT,
+                autoCenter: Phaser.Scale.CENTER_BOTH,
+                width: 800, // Adjusted resolution for phones
+                height: 450 // Adjusted resolution for phones
+            },
             physics: {
                 default: 'arcade',
                 arcade: {
@@ -53,20 +57,20 @@
         const game = new Phaser.Game(config);
 
         function preload() {
-            this.load.image('background', 'assets/background.png'); // Фон
-            this.load.image('ground', 'assets/ground.png'); // Платформа
-            this.load.spritesheet('player', 'assets/varia.png', { frameWidth: 32, frameHeight: 48 }); // Спрайт Вари
-            this.load.image('khinkali', 'assets/khinkali.png'); // Хинкали
-            this.load.spritesheet('dragon', 'assets/dragon.png', { frameWidth: 48, frameHeight: 48 }); // Драконы
-            this.load.image('family', '/mnt/data/DALL·E 2025-01-29 12.16.19 - Pixel art of a family consisting of a mother, father, two dogs (a Staffordshire Terrier and a German Shorthaired Pointer), and an orange cat. The fami.webp'); // Семья (мама, папа, 2 собаки, 1 рыжий кот)
+            this.load.image('background', 'background.png'); // Фон
+            this.load.image('ground', 'ground.png'); // Платформа
+            this.load.spritesheet('player', 'varia.png', { frameWidth: 32, frameHeight: 48 }); // Спрайт Вари
+            this.load.image('khinkali', 'khinkali.png'); // Хинкали
+            this.load.spritesheet('dragon', 'dragon.png', { frameWidth: 48, frameHeight: 48 }); // Драконы
+            this.load.image('family', 'family.webp'); // Семья (мама, папа, 2 собаки, 1 рыжий кот)
         }
 
         function create() {
-            this.add.image(400, 300, 'background');
+            this.add.image(400, 225, 'background').setScale(1.5); // Adjusted background for smaller resolution
             platforms = this.physics.add.staticGroup();
-            platforms.create(400, 580, 'ground').setScale(2).refreshBody();
+            platforms.create(400, 430, 'ground').setScale(2).refreshBody(); // Adjusted for new resolution
             
-            player = this.physics.add.sprite(100, 450, 'player');
+            player = this.physics.add.sprite(100, 350, 'player'); // Adjusted player start position
             player.setBounce(0.2);
             player.setCollideWorldBounds(true);
             
@@ -99,12 +103,12 @@
             });
             
             dragons = this.physics.add.group();
-            dragons.create(400, 500, 'dragon');
+            dragons.create(600, 350, 'dragon'); // Adjusted dragon position
             
             family = this.physics.add.staticGroup();
-            family.create(700, 500, 'family'); // Семья появляется в конце уровня
+            family.create(750, 350, 'family'); // Adjusted family position
             
-            scoreText = this.add.text(16, 16, 'Хинкали: 0', { fontSize: '32px', fill: '#ffffff' });
+            scoreText = this.add.text(16, 16, 'Хинкали: 0', { fontSize: '24px', fill: '#ffffff' });
             
             this.physics.add.collider(player, platforms);
             this.physics.add.collider(khinkali, platforms);
@@ -148,7 +152,7 @@
         }
 
         function reachFamily(player, family) {
-            this.add.text(300, 250, 'Ты нашла свою семью!', { fontSize: '32px', fill: '#ffffff' });
+            this.add.text(300, 200, 'Ты нашла свою семью!', { fontSize: '24px', fill: '#ffffff' }); // Adjusted for new resolution
             this.physics.pause();
         }
     </script>
